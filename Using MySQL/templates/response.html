@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Feedback Submitted</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="response-container">
+            <div class="response-content">
+                <div class="response-left">
+                    <div class="success-icon">✓</div>
+                </div>
+                <div class="response-right">
+                    <h1>Thank You, {{ name }}!</h1>
+                    <p class="success-message">Your feedback has been successfully submitted.</p>
+                    <p class="details">We appreciate you taking the time to share your thoughts with us. Your feedback helps us improve our services.</p>
+                    
+                    <div class="action-buttons">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary">Submit Another Feedback</a>
+                        <a href="/" class="btn btn-secondary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

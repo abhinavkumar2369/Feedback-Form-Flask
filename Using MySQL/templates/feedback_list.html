@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .feedback-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .feedback-header {
+            margin-bottom: 40px;
+            color: white;
+            position: relative;
+            padding-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .feedback-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+            /* text-shadow: 0 2px 4px white; */
+            letter-spacing: 0.5px;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .feedback-card {
+            background: #ffffff;
+            margin-bottom: 30px;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 3px 10px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+        
+        .feedback-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0.8;
+        }
+        
+        .feedback-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.06);
+            background: #fafafa;
+        }
+        
+        .feedback-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(0, 102, 204, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feedback-meta::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            height: 1px;
+            width: 100px;
+            background: linear-gradient(90deg, #0066CC, rgba(0, 102, 204, 0));
+        }
+        
+        .feedback-info {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .feedback-name {
+            font-weight: 700;
+            font-size: 1.25em;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feedback-name::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: #0066CC;
+            border-radius: 2px;
+        }
+        
+        .feedback-contact {
+            color: #495057;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .feedback-contact::before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23495057" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>') no-repeat center center;
+            background-size: 18px 18px;
+        }
+        
+        .feedback-date {
+            color: #212529;
+            font-size: 0.9em;
+            text-align: right;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+        }
+        
+        .feedback-date::before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23212529" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1zm-7 5h5v5h-5z"/></svg>') no-repeat center center;
+            background-size: 18px 18px;
+        }
+        
+        .feedback-subject {
+            font-weight: 600;
+            color: #0066CC;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        
+        .feedback-message {
+            color: #212529;
+            line-height: 1.6;
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 8px;
+        }
+        
+        .no-feedback {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+        }
+        
+        .no-feedback h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .no-feedback p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            margin-right: 10px;
+        }
+        
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+        
+        .feedback-count {
+            color: white;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            margin-left: 10px;
+        }
+        
+        .feedback-count strong {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-left: 5px;
+        }
+        
+        .count-badge {
+            display: flex;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .feedback-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .feedback-date {
+                text-align: left;
+                margin-top: 12px;
+            }
+            
+            .feedback-container {
+                padding: 12px;
+            }
+            
+            .feedback-card {
+                padding: 22px;
+                margin-bottom: 18px;
+            }
+            
+            .feedback-header h1 {
+                font-size: 1.6em;
+            }
+            
+            .feedback-count {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .feedback-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding-bottom: 15px;
+            }
+            
+            .feedback-header h1 {
+                order: -1;
+                margin-bottom: 15px;
+            }
+            
+            .back-button {
+                margin-right: 0;
+                order: 0;
+            }
+            
+            .count-badge {
+                order: 1;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <div class="feedback-header">
+            <a href="{{ url_for('index') }}" class="back-button" title="Back to Feedback Form">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/>
+                </svg>
+            </a>
+            <h1>All Submitted Feedback</h1>
+            
+            {% if feedbacks %}
+                <div class="count-badge">
+                    <div class="feedback-count">Count: <strong>{{ feedbacks|length }}</strong></div>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if feedbacks %}
+            {% for feedback in feedbacks %}
+                <div class="feedback-card">
+                    <div class="feedback-meta">
+                        <div class="feedback-info">
+                            <div class="feedback-name">{{ feedback.name }}</div>
+                            <div class="feedback-contact">
+                                {{ feedback.email }}
+                                {% if feedback.phone %}
+                                    | {{ feedback.phone }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="feedback-date">
+                            {{ feedback.timestamp.strftime('%B %d, %Y at %I:%M %p') }}
+                        </div>
+                    </div>
+                    
+                    {% if feedback.subject %}
+                        <div class="feedback-subject">{{ feedback.subject }}</div>
+                    {% endif %}
+                    
+                    <div class="feedback-message">{{ feedback.message }}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-feedback">
+                <h2>No Feedback Yet</h2>
+                <p>No feedback has been submitted yet. Be the first to share your thoughts!</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
